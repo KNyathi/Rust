@@ -9,5 +9,9 @@ edition = "2021"
 name = "book"
 path = "src/book.rs"
 
+[[bin]]
+name = "book2"
+path = "src/book2.rs"
+
 [dependencies]
 rand = "0.8.5"
