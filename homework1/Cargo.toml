@@ -13,5 +13,9 @@ path = "src/book.rs"
 name = "book2"
 path = "src/book2.rs"
 
+[[bin]]
+name = "book3"
+path = "src/book3.rs"
+
 [dependencies]
 rand = "0.8.5"
