@@ -9,13 +9,8 @@
 
  */
 
+
 fn main() {}
-
-struct Rect {
-    // TODO
-}
-
-n main() {}
 
 struct Rect {
     top_left: (f32, f32),
