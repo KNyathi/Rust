@@ -56,15 +56,14 @@ where
 
 
 
-
 fn main() {
     let mut map = HashMap::new();
-    map.insert("apple", 10);
-    map.insert("banana", 20);
-    map.insert("cherry", 30);
+    map.insert(String::from("apple"), 10);
+    map.insert(String::from("banana"), 20);
+    map.insert(String::from("cherry"), 30);
 
-    println!("{:?}", map.get("banana")); // Some(&20)
+    println!("{:?}", map.get(&String::from("banana"))); // Some(&20)
 
-    let removed_value = map.remove("apple");
+    let removed_value = map.remove(&String::from("apple"));
     println!("{:?}", removed_value); // Some(10)
 }
