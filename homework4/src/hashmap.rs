@@ -3,13 +3,18 @@ use std::hash::{Hash, Hasher};
 
 const INITIAL_CAPACITY: usize = 16;
 
-struct HashMap<K, V> {
+struct HashMap<K, V>
+where
+    K: Eq + Hash + Clone,
+    V: Clone,
+{
     buckets: Vec<Vec<(K, V)>>,
 }
 
 impl<K, V> HashMap<K, V>
 where
-    K: Eq + Hash,
+    K: Eq + Hash + Clone,
+    V: Clone,
 {
     fn new() -> Self {
         HashMap {
