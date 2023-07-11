@@ -35,8 +35,15 @@ impl<T> Vector<T> {
         self.data.get(index)
     }
 
-    pub fn resize(&mut self, new_size: usize) {
-        self.data.resize(new_size, Default::default());
+    pub fn resize(&mut self, new_size: usize)
+    where
+        T: Clone,
+    {
+        if new_size < self.data.len() {
+            self.data.truncate(new_size);
+        } else {
+            self.data.resize(new_size, Default::default());
+        }
     }
 }
 
