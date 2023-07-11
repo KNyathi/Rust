@@ -2,9 +2,7 @@ pub struct Vector<T> {
     data: Vec<T>,
 }
 
-
-
-impl<T> Vector<T> {
+impl<T: Clone> Vector<T> {
     pub fn new() -> Self {
         Vector { data: Vec::new() }
     }
@@ -35,10 +33,12 @@ impl<T> Vector<T> {
         self.data.get(index)
     }
 
-    pub fn resize(&mut self, new_size: usize, default_value: T) {
-        if new_size < self.data.len() {
+    pub fn resize(&mut self, new_size: usize) {
+        let len = self.data.len();
+        if new_size < len {
             self.data.truncate(new_size);
-        } else {
+        } else if new_size > len {
+            let default_value = self.data.last().cloned().unwrap();
             self.data.resize(new_size, default_value);
         }
     }
