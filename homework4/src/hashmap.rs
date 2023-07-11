@@ -37,7 +37,7 @@ where
         let index = self.get_bucket_index(key);
         let bucket = &self.buckets[index];
 
-        bucket.iter().find(|(k, )| *k == *key).map(|(, v)| v)
+        bucket.iter().find(|(k, _)| *k == *key).map(|(_, v)| v)
     }
 
     fn remove(&mut self, key: &K) -> Option<V> {
