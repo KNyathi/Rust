@@ -1,11 +1,12 @@
 use std::io::{self, Write};
-
+use rand::Rng;
 //enumerator for our math operations
 enum Operation {
     Add,
     Subtract,
     Multiply,
     Divide,
+    TeachScience,
     None,
 }
 
@@ -47,34 +48,37 @@ impl MathProblem {
                     None
                 }
             }
+            Operation::TeachScience => None,
             Operation::None => None,
         }
     }
 
 
-    fn explanation(&self) -> &str {
+    fn explanation(&self) -> String {
         match self.operation {
             Operation::Add => "Addition in math is a process of combining two or more numbers.
         Addends are the numbers being added, and the result or the final answer we get after the process is called the sum.
         It is one of the essential mathematical functions we use in our everyday activities. There are many situations in which we add numbers.
         One of the most common everyday uses for adding numbers is when we work with time or money—for example, adding up bills and receipts.
         The addition has an infinite number of applications in our day-to-day life.
-        We use addition while cooking food, while calculating bills at supermarkets, while calculating distances, and much more.",
+        We use addition while cooking food, while calculating bills at supermarkets, while calculating distances, and much more.".to_string(),
 
             Operation::Subtract => "Subtraction is simply the process of taking one quantity and removing part of it to work out what is left.
         It is the opposite of addition, because we are reducing the value of the number rather than increasing it by adding more numbers.
         You can subtract more than one number away from each other, but this usually involves the use of parenthesis and an understanding of number facts like number order.
-        It’s a great idea to introduce subtraction with some examples.",
+        It’s a great idea to introduce subtraction with some examples.".to_string(),
 
             Operation::Multiply => "Multiplication is an operation that represents the basic idea of repeated addition of the same number.
         The numbers that are multiplied are called the factors and the result that is obtained after the multiplication of two or more numbers is known as the product of those numbers.
-        Multiplication is used to simplify the task of repeated addition of the same number.",
+        Multiplication is used to simplify the task of repeated addition of the same number.".to_string(),
 
             Operation::Divide => "Division is the opposite of multiplication.
         If 3 groups of 4 make 12 in multiplication, 12 divided into 3 equal groups give 4 in each group in division.
-        The main goal of dividing is to see how many equal groups are formed or how many are in each group when sharing fairly. ",
+        The main goal of dividing is to see how many equal groups are formed or how many are in each group when sharing fairly.".to_string(),
 
-            Operation::None => "I'm sorry, I don't understand the operation.",
+            Operation::TeachScience => "Science is awesome! Let me tell you a science fact:".to_string(),
+
+            Operation::None => "I'm sorry, I don't understand the operation.".to_string(),
         }
     }
 }
@@ -87,16 +91,29 @@ fn parse_operation(input: &str) -> Option<Operation> {
         "subtract" => Some(Operation::Subtract),
         "multiply" => Some(Operation::Multiply),
         "divide" => Some(Operation::Divide),
+        "teach science" => Some(Operation::TeachScience),
         _ => None,
     }
 }
 
 
+fn teach_science() -> String {
+    // Simple science facts or explanations
+    let science_facts = [
+        "The Earth orbits around the Sun.",
+        "Water is made up of two hydrogen atoms and one oxygen atom (H2O).",
+        "The force that pulls objects towards the center of the Earth is called gravity.",
+        "Photosynthesis is the process by which plants convert sunlight into energy.",
+        "The atomic number of carbon is 6, and its symbol is C.",
+    ];
+    let idx = rand::thread_rng().gen_range(0..science_facts.len());
+    science_facts[idx].to_string() //convert &str to String
+}
 
 
 fn main() {
     println!("Kintel: Hello! I am a Rust-based chatbot. You can start chatting with me! And please call me Kintel cause that's my name.");
-    println!("Kintel: I can also help with basic math operations. Just ask me to add, subtract, multiply, or divide two numbers!");
+    println!("Kintel: I can also help with basic math operations. Just ask me to add, subtract, multiply, or divide two numbers! By the way, I also have some very interesting Science facts. Just ask me 'teach science' and I will be all over the place.");
 
     let mut math_problem = MathProblem::new();
 
@@ -108,8 +125,8 @@ fn main() {
         io::stdin().read_line(&mut user_input).unwrap();
 
         let response = match parse_operation(&user_input) {
-            Some(op) => {
-                math_problem.set_operation(op);
+            Some(Operation::Add) | Some(Operation::Subtract) | Some(Operation::Multiply) | Some(Operation::Divide) => {
+                math_problem.set_operation(parse_operation(&user_input).unwrap());
 
                 println!("Kintel: Enter the first number:");
                 let mut num1_input = String::new();
@@ -131,8 +148,18 @@ fn main() {
                     None => "Cannot divide by zero!".to_string(),
                 };
                 format!("{} {}", explanation, result)
-
             }
+
+            Some(Operation::TeachScience) => {
+                // Teach a science fact
+                println!("Chatbot: Sure! Here's a science fact:");
+                teach_science()
+            }
+
+            Some(Operation::None) => {
+                "Kintel: I'm sorry, I don't understand the operation.".to_string()
+            }
+
             None => "I'm sorry, I don't understand.".to_string(),
         };
 
